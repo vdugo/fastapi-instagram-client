@@ -37,7 +37,7 @@ function App() {
   const [modalStyle, setModalStyle] = useState(getModalStyle)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [authToken, useAuthToken] = useState(null)
+  const [authToken, setAuthToken] = useState(null)
   const [authTokenType, setAuthTokenType] = useState(null)
   const [userId, setUserId] = useState('')
 
@@ -103,6 +103,13 @@ function App() {
     setOpenSignIn(false)
   }
 
+  const signOut = (event) => {
+    setAuthToken(null)
+    setAuthTokenType(null)
+    setUserId('')
+    setUsername('')
+  }
+
   return (
     <div className="app">
 
@@ -146,10 +153,19 @@ function App() {
         alt="Instagram" 
         className="app_headerImage" 
         />
-        <div>
-         <Button onClick={() => setOpenSignIn(true)}>Login</Button>
-         <Button onClick={() => setOpenSignUp(true)}>Sign Up</Button>
-        </div>
+
+        {
+          authToken 
+          ? (
+            <Button onClick={() => signOut()}>Logout</Button>
+          )
+          : (
+            <div>
+              <Button onClick={() => setOpenSignIn(true)}>Login</Button>
+              <Button onClick={() => setOpenSignUp(true)}>Sign Up</Button>
+            </div>
+          )
+        }
 
       </div>
       <div className="app_posts">
