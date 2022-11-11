@@ -40,6 +40,7 @@ function App() {
   const [authToken, setAuthToken] = useState(null)
   const [authTokenType, setAuthTokenType] = useState(null)
   const [userId, setUserId] = useState('')
+  const [email, setEmail] = useState('')
 
   useEffect(() => {
     setAuthToken(window.localStorage.getItem('authToken'))
@@ -136,6 +137,10 @@ function App() {
     setUsername('')
   }
 
+  const signUp = (event) => {
+    
+  }
+
   return (
     <div className="app">
 
@@ -169,6 +174,46 @@ function App() {
             onClick={signIn}
             >
               Login
+            </Button>
+          </form>
+        </div>
+      </Modal>
+      <Modal
+      open={openSignUp}
+      onClose={() => setOpenSignUp(false)}
+      >
+        <div style={modalStyle} className={classes.paper}>
+          <form className="app_signin">
+            <center>
+            <img 
+            src="https://ccsonc.org/wp-content/uploads/2017/06/instagram-logo.png" 
+            alt="Instagram" 
+            className="app_headerImage" 
+            />
+            </center>
+            <Input
+            placeholder='username'
+            type='text'
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            />
+            <Input
+            placeholder='email'
+            type='text'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            />
+            <Input
+            placeholder='password'
+            type='password'
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            />
+            <Button
+            type="submit"
+            onClick={signUp}
+            >
+              Sign Up
             </Button>
           </form>
         </div>
