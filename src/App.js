@@ -4,7 +4,7 @@ import { Button, makeStyles, Modal, Input } from '@material-ui/core';
 
 import Post from './Post';
 
-const BASE_URL = 'http://localhost:8000'
+const BASE_URL = 'http://localhost:8000/'
 
 function getModalStyle() {
   const top = 50
@@ -37,9 +37,12 @@ function App() {
   const [modalStyle, setModalStyle] = useState(getModalStyle)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [authToken, useAuthToken] = useState(null)
+  const [authTokenType, setAuthTokenType] = useState(null)
+  const [userId, setUserId] = useState('')
 
   useEffect(() => {
-    fetch(BASE_URL + '/post/all')
+    fetch(BASE_URL + 'post/all')
     .then((response) => {
       if (response.ok) {
         return response.json()
@@ -67,7 +70,37 @@ function App() {
   }, [])
 
   const signIn = (event) => {
-    
+    event.preventDefault()
+
+    let formData = new FormData()
+    formData.append('username', username)
+    formData.append('password', password)
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+    }
+
+    fetch(BASE_URL + 'login', requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      }
+      throw response
+    })
+    .then((data) => {
+      console.log(data)
+      setAuthToken(data.access_token)
+      setAuthTokenType(data.token_type)
+      setUserId(data.user_id)
+      setUsername(data.username)
+    })
+    .catch((error) => {
+      console.log(error)
+      alert(error)
+    })
+
+    setOpenSignIn(false)
   }
 
   return (
