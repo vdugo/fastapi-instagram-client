@@ -72,11 +72,30 @@ const Post = ({ post, authToken, authTokenType, username }) => {
         }
         throw response
     })
+    .then((data) => {
+        fetchComments()
+    })
     .catch((error) => {
         console.log(error)
     })
     .finally(() => {
         setNewComment('')
+    })
+  }
+
+  const fetchComments = () => {
+    fetch(BASE_URL + 'comment/all/' + post.id)
+    .then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+        throw response
+    })
+    .then((data) => {
+        setComments(data)
+    })
+    .catch((error) => {
+        console.log(error)
     })
   }
 
@@ -102,7 +121,7 @@ const Post = ({ post, authToken, authTokenType, username }) => {
 
         <div className="post_comments">
             {
-                comments.map((comment) => (
+                comments && comments.map((comment) => (
                     <p>
                         <strong>{comment.username}:</strong> {comment.text}
                     </p>
