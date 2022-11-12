@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import { Button, makeStyles, Modal, Input } from '@material-ui/core';
+import ImageUpload from './ImageUpload';
 
 import Post from './Post';
 
@@ -277,6 +278,15 @@ function App() {
           ))
         }
       </div>
+      {
+        authToken ? (
+          <ImageUpload
+
+          />
+        ) : (
+          <h3>You need to log in to upload</h3>
+        )
+      }
     </div>
   );
 }
