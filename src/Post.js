@@ -6,7 +6,7 @@ import { Avatar, Button } from "@material-ui/core";
 
 const BASE_URL = 'http://localhost:8000/'
 
-const Post = ({ post }) => {
+const Post = ({ post, authToken, authTokenType }) => {
 
   const [imageUrl, setImageUrl] = useState('')
   const [comments, setComments] = useState([])
@@ -24,6 +24,28 @@ const Post = ({ post }) => {
     setComments(post.comments)
   }, [])
 
+  const handleDelete = (event) => {
+    event?.preventDefault()
+
+    const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+            'Authorization': authTokenType + ' ' + authToken
+        })
+    }
+
+    fetch(BASE_URL + 'post/delete/' + post.id, requestOptions)
+    .then((response) => {
+        if (response.ok) {
+            window.location.reload()
+        }
+        throw response
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+  }
+
 
   return (
     <div className="post">
@@ -34,7 +56,7 @@ const Post = ({ post }) => {
             />
             <div className="post_headerInfo">
                 <h3>{post.user.username}</h3>
-                <Button className="post_delete">Delete</Button>
+                <Button className="post_delete" onClick={handleDelete}>Delete</Button>
             </div>
         </div>
         <img
