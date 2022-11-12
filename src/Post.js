@@ -10,6 +10,7 @@ const Post = ({ post, authToken, authTokenType }) => {
 
   const [imageUrl, setImageUrl] = useState('')
   const [comments, setComments] = useState([])
+  const [newComment, setNewComment] = useState('')
   
   useEffect(() => {
     if (post.image_url_type === 'absolute') {
@@ -46,6 +47,10 @@ const Post = ({ post, authToken, authTokenType }) => {
     })
   }
 
+  const postComment = (event) => {
+    
+  }
+
 
   return (
     <div className="post">
@@ -75,6 +80,27 @@ const Post = ({ post, authToken, authTokenType }) => {
                 ))
             }
         </div>
+        {
+            authToken && (
+                <form className="post_commentbox">
+                    <input 
+                    type="text" 
+                    className="post_input"
+                    placeholder="add a comment"
+                    value={newComment}
+                    onChange={(event) => setNewComment(event.target.value)}
+                    />
+                    <button
+                    className="post_button"
+                    type="submit"
+                    disabled={!newComment}
+                    onClick={postComment}
+                    >
+                        Post
+                    </button>
+                </form>
+            )
+        }
     </div>
   )
 }
